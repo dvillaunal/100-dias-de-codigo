@@ -1,0 +1,21 @@
+Traceback (última llamada más reciente):
+Traceback (most recent call last):
+  File "main.py", line 24, in <module>
+main.py:50: FutureWarning: Como el paquete xlwt ya no se mantiene, el motor xlwt se eliminará en una futura versión de pandas. Este es el único motor de pandas que soporta la escritura en formato xls. Instale openpyxl y escriba en un archivo xlsx en su lugar. Puede establecer la opción io.excel.xls.writer a 'xlwt' para silenciar esta advertencia. Aunque esta opción está obsoleta y también genera una advertencia, se puede establecer globalmente y suprimir la advertencia.
+  serie.to_excel('produccion.xls')
+
+Traducción realizada con la versión gratuita del traductor www.DeepL.com/Translator
+
+profe por este error no me dejo trabajar a tiempo, llevo desde el colab
+desde las 8 pm la verdad me confunde replit con sus advertencias
+en cambio colab me dejaba correr todo el codigo
+
+#############################################################
+
+FutureWarning: As the xlwt package is no longer maintained, the xlwt engine will be removed in a future version of pandas. This is the only engine in pandas that supports writing in the xls format. Install openpyxl and write to an xlsx file instead. You can set the option io.excel.xls.writer to 'xlwt' to silence this warning. While this option is deprecated and will also raise a warning, it can be globally set and the warning suppressed.
+
+profe si me puede ayudar para crear un codigo donde no aparexca esto me ayudaria mucho...la verdad intente con la lib warning y con try except pero no me da.
+
+-> anexo Foto [Problemas Con la Pagina.png]
+
+con sustento muestro que no me dejo trabajar correctamente.

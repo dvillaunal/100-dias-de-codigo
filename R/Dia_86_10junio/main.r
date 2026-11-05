@@ -1,0 +1,111 @@
+## ---- eval=FALSE, include=TRUE-----------------------------------------------------------
+## "Protocolo:
+## 
+##  1. Daniel Felipe Villa Rengifo
+## 
+##  2. Lenguaje: R
+## 
+##  3. Tema: Árboles de decisión
+## 
+##  4. Fuentes:
+##     https://rpubs.com/jboscomendoza/arboles_decision_clasificacion"
+
+
+## ----------------------------------------------------------------------------------------
+#Para estos ejemplos vamos a inventar nuevamente unos datos. Tenemos una tabla en la que vienen la altura del padre, de la madre y de un hijo. Y queremos ver su relación. 
+
+# creamos los datos de ejemplo
+# una tabla con alturas del padre la madre, el sexo del hijo y la altura
+
+## Función para calcular la altura (muestras pseudoaletorias)
+redondea5<-function(x,base=5){
+  "Recibe x = un vector | base = numero
+  1. redondea la división x/base
+  2. multiplica (1)*base
+  3. vuelve el vector resultante en enteros
+  4. retorna (3)"
+  return(as.integer(base*round(x/base)))
+}
+
+## n es el número de valores a obtener.
+# mu y SD son la media y la desviación estándar
+# de la población.
+#rnorm(n, mu, SD)
+
+# alturas de los padres:
+a.padre<- redondea5(rnorm(1000, 168, 25),10)
+a.madre<- redondea5(rnorm(1000, 150, 10),10)
+
+# Creamos el vector sexo del hijo
+s.hijo<-factor(rbinom(1000,1,0.5), levels=c(0,1),labels=c("M","F"))
+
+# creo data.frame
+t.alturas <- data.frame(a.padre,a.madre,s.hijo)
+
+# Se calcula la altura del hijo con esta formula
+"Esta formula se basa en que si es
+hombre sume las alturas de padre y madre y multipliquelas por rnorm(1,1,0.07)/2, sino haga lo mismo solo que multiplique por rnorm(1,1,0.05)/2"
+
+t.alturas$a.hijo<-ifelse(t.alturas$s.hijo == "M",
+                         (t.alturas$a.padre+t.alturas$a.madre)*rnorm(1,1,0.07)/2,
+                         (t.alturas$a.padre +t.alturas$a.madre)*rnorm(1,1,0.05)/2)
+
+# Creamos las alturas del hijo depende de la formula anterior
+t.alturas$a.hijo<-redondea5(t.alturas$a.hijo,10)
+
+# Exportemos la base de datos:
+write.csv(t.alturas, file = "t_alturas.csv", row.names = F)
+
+# Miremos las clases de los vectores:
+str(t.alturas) 
+
+# ibservamos los datos:
+head(t.alturas)
+
+
+
+# Importamos las librerias necesarias
+#install.packages("rpart")
+#install.packages("rpart.plot")
+library(rpart)
+library(rpart.plot)
+
+######## Crear un modelo de clasificacion  con rpart#####################
+
+#creamos un modelo de clasificación en el que intervengan todas las variables
+# el coeficiente cp nos extiende o acorta el arbol, simplifica resultados
+
+model.alturas1 <- rpart(a.hijo ~ ., data = t.alturas, method = "class", cp = .02)
+
+# Graficamos el modelo anterior
+
+png(filename = "modelorpart.png")
+
+rpart.plot(model.alturas1, fallen.leaves = FALSE,
+           main = "Arbol de decision de alturas hijo\n(en funcion altura padres)\n",
+           shadow.col = "gray")
+
+dev.off()
+
+#este grafico consiste en = evalua una condición, si es TRUE (ira por el lado izquierdo) y si es FALSE (ira por el lado derecho)
+
+#dentro de los nodos encontraremos los datos que cumplen la condición o no
+# el % quiere decir el porcetnaje de datos filtrados
+
+# los datos como .002 .28 .32 ....entre otros:
+##1. va con el orden de la leyenda y representa el porcentaje de los datos (de 0 a 1) que va con la leyenda:
+## es decir, en el inicio el .00 representa el porcetaje de datos con padres con 140 cm de estatura, .06 dice que el 6% de los datos corresponden a padres con 150 cm de estatura, así todos con esa misma logíca
+
+
+# hacemos un pronostico
+# Vamos a pronosticar las aturas de un hijo sigiendo los parametros del dataframe
+h2 <- data.frame(a.padre= c(190,150),
+                 a.madre= c(180,140),s.hijo= c("M","M"))
+
+# Porbamos le pronostico:
+predict(model.alturas1, h2,type = "class")
+"ESto dice que solamente se encontraron dos casos donde un hijo mide 190 y el otro 160"
+
+#######RESULTADO:#######
+# 1    2
+# 190  160

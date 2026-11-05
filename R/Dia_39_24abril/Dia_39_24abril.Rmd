@@ -1,0 +1,39 @@
+---
+title: "Dia_39_24abril"
+date: "25/4/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Protocolo: 
+  1. Daniel Felipe Villa Rengifo
+  
+  2. Lenguaje Utilizado R
+  
+  3. Tema: Escriba un programa de 'Hola Mundo'. Recuerde incluir los comentarios      a las líneas de código
+  
+  4. Fuentes utilizadas:
+     https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print
+  
+  __Nuevo Item:__
+  
+  5. Link del repositorio en GitHub:
+        https://github.com/dvillaunal/Dia_39_24abirl
+
+## Función print():
+
+__`print`__ imprime su argumento y lo devuelve de forma invisible (mediante invisible(x)).
+
+Es una función genérica, lo que significa que se pueden añadir fácilmente nuevos métodos de impresión para nuevas clases.     
+
+* __Nota:__ Así como imprimimos en python (es decir, el mismo comando):
+      `print(Valores a imprimir)`
+
+```{r}
+print('Mi primer reto con R')
+print('Hola Mundo')
+```
+
